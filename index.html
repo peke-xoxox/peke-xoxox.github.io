@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>曲の時間計算機</title>
     <style>
+        /* 全体のスタイル */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -125,28 +126,21 @@
                 flex-direction: column;
             }
             .section-item {
-                flex-direction: column;
-                align-items: stretch;
+                flex-direction: row;
+                align-items: center;
                 padding: 10px;
                 margin-bottom: 10px;
                 width: 100%; /* 幅を100%に設定 */
+                flex-wrap: nowrap; /* 要素の折り返しを防ぐ */
             }
-            .section-item label, .section-item input, .section-item button {
-                margin: 5px 0;
-                width: 100%;
-                text-align: center;
+            .section-item label {
+                margin-right: 10px;
             }
             .section-item input {
-                width: auto; /* 幅を自動調整 */
+                margin-right: 10px;
             }
             .section-item button {
-                margin: 2px 0;
-                width: auto; /* 幅を自動調整 */
-            }
-            .section-item button.delete-button {
-                position: static;
-                margin-top: 10px;
-                width: 100%;
+                margin: 0 5px; /* ボタン間のスペースを設定 */
             }
         }
     </style>
