@@ -124,10 +124,16 @@
                 flex: 1 1 45%; /* ボタンを横に並べる */
                 margin: 5px;
             }
+            .section-list {
+                display: flex;
+                flex-direction: column;
+            }
             .section-item {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
                 padding: 10px;
+                margin-bottom: 10px;
+                width: 100%; /* 幅を100%に設定 */
             }
             .section-item label, .section-item input, .section-item button {
                 margin: 5px 0;
@@ -135,7 +141,7 @@
                 text-align: center;
             }
             .section-item input {
-                width: 80%;
+                width: auto; /* 幅を自動調整 */
             }
             .section-item button.delete-button {
                 position: static;
@@ -165,7 +171,8 @@
 
         <div class="section-list" id="section-list"></div>
 
-        <button onclick="calculateAndRedirect()">時間を計算</button>
+        <div id="results"></div>
+        <button onclick="calculateAndDisplay()">時間を計算</button>
     </div>
 
     <script>
@@ -239,17 +246,16 @@
             return formatTime(totalSeconds);
         }
 
-        function calculateAndRedirect() {
+        function calculateAndDisplay() {
             const bpm = parseInt(document.getElementById('bpm').value, 10);
 
             if (isNaN(bpm) || bpm <= 0) {
-                alert('無効なBPM値です。');
+                document.getElementById('results').innerText = '無効なBPM値です。';
                 return;
             }
 
             const totalTime = calculateTotalTime(sections, bpm);
-            const queryString = `bpm=${encodeURIComponent(bpm)}&totalTime=${encodeURIComponent(totalTime)}`;
-            window.location.href = `results.html?${queryString}`;
+            document.getElementById('results').innerText = `合計時間: ${totalTime}`;
         }
     </script>
 </body>
