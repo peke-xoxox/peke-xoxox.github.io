@@ -49,13 +49,13 @@
         .section-item {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             margin-bottom: 10px;
             background-color: #007bff; /* 青色のセクションアイテム */
             border: 1px solid #0056b3;
             border-radius: 5px;
             padding: 10px;
             position: relative;
-            flex-wrap: wrap; /* 要素が折り返すように設定 */
         }
         .section-item label {
             flex: 1;
@@ -92,10 +92,6 @@
         }
         .section-item button.delete-button {
             background-color: #dc3545; /* 赤色の削除ボタン */
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
         }
         .section-item button.delete-button:hover {
             background-color: #c82333; /* ホバー時の赤色 */
@@ -141,6 +137,10 @@
                 text-align: center;
             }
             .section-item input {
+                width: auto; /* 幅を自動調整 */
+            }
+            .section-item button {
+                margin: 2px 0;
                 width: auto; /* 幅を自動調整 */
             }
             .section-item button.delete-button {
