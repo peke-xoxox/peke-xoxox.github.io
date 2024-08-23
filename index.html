@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲の時間計算機</title>
+    <style>
+        /* 省略 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>曲の時間計算機</h1>
+
+        <div>
+            <label for="bpm">BPM:</label>
+            <input type="number" id="bpm" value="120">
+        </div>
+
+        <div class="section-buttons">
+            <button onclick="addSection('イントロ')">イントロ</button>
+            <button onclick="addSection('A')">A</button>
+            <button onclick="addSection('B')">B</button>
+            <button onclick="addSection('サビ')">サビ</button>
+            <button onclick="addSection('間奏')">間奏</button>
+            <button onclick="addSection('アウトロ')">アウトロ</button>
+        </div>
+
+        <div class="section-list" id="section-list"></div>
+
+        <button onclick="calculateAndRedirect()">時間を計算</button>
+    </div>
+
+    <script>
+        let sections = [];
+
+        function addSection(name) {
+            if (sections.some(section => section.name === name)) {
+                alert('このセクションはすでに追加されています。');
+                return;
+            }
+            sections.push({ name, bars: 0 });
+            updateSectionList();
+        }
+
+        function updateSectionList() {
+            const sectionList = document.getElementById('section-list');
+            sectionList.innerHTML = '';
+            sections.forEach((section, index) => {
+                const sectionItem = document.createElement('div');
+                sectionItem.className = 'section-item';
+                sectionItem.innerHTML = `
+                    <label>${section.name}:</label>
+                    <input type="number" value="${section.bars}" min="0" onchange="updateBars(${index}, this.value)">
+                    <button class="small-bar" onclick="setBars(${index}, 2)">2小節</button>
+                    <button class="small-bar" onclick="setBars(${index}, 4)">4小節</button>
+                    <button class="small-bar" onclick="setBars(${index}, 8)">8小節</button>
+                    <button class="small-bar" onclick="setBars(${index}, 16)">16小節</button>
+                    <button class="delete-button" onclick="deleteSection(${index})">削除</button>
+                `;
+                sectionList.appendChild(sectionItem);
+            });
+        }
+
+        function updateBars(index, value) {
+            const bars = parseInt(value, 10);
+            if (!isNaN(bars) && bars >= 0) {
+                sections[index].bars = bars;
+            }
+        }
+
+        function deleteSection(index) {
+            sections.splice(index, 1);
+            updateSectionList();
+        }
+
+        function setBars(index, bars) {
+            sections[index].bars = bars;
+            updateSectionList();
+        }
+
+        function calculateSectionTime(bars, bpm) {
+            const secondsPerBar = 60 / bpm * 4;
+            return bars * secondsPerBar;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}分 ${remainingSeconds}秒`;
+        }
+
+        function calculateTotalTime(sections, bpm) {
+            let totalSeconds = 0;
+            sections.forEach(section => {
+                totalSeconds += calculateSectionTime(section.bars, bpm);
+            });
+            return formatTime(totalSeconds);
+        }
+
+        function calculateAndRedirect() {
+            const bpm = parseInt(document.getElementById('bpm').value, 10);
+            if (isNaN(bpm) || bpm <= 0) {
+                alert('無効なBPM値です。');
+                return;
+            }
+
+            const totalTime = calculateTotalTime(sections, bpm);
+            const queryString = `bpm=${encodeURIComponent(bpm)}&totalTime=${encodeURIComponent(totalTime)}`;
+            window.location.href = `results.html?${queryString}`;
+        }
+    </script>
+</body>
+</html>
