@@ -194,10 +194,10 @@
                 sectionItem.innerHTML = `
                     <label>${section.name}:</label>
                     <input type="number" value="${section.bars}" min="0" onchange="updateBars(${index}, this.value)">
-                    <button class="small-bar" onclick="setBars(${index}, 2)">2小節</button>
-                    <button class="small-bar" onclick="setBars(${index}, 4)">4小節</button>
-                    <button class="small-bar" onclick="setBars(${index}, 8)">8小節</button>
-                    <button class="small-bar" onclick="setBars(${index}, 16)">16小節</button>
+                    <button class="small-bar" onclick="setBars(${index}, 2)">2</button>
+                    <button class="small-bar" onclick="setBars(${index}, 4)">4</button>
+                    <button class="small-bar" onclick="setBars(${index}, 8)">8</button>
+                    <button class="small-bar" onclick="setBars(${index}, 16)">16</button>
                     <button class="delete-button" onclick="deleteSection(${index})">削除</button>
                 `;
                 sectionList.appendChild(sectionItem);
